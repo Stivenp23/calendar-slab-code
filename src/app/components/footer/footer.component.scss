@@ -1,0 +1,16 @@
+@import '../../../scss/index';
+
+.footer {
+  background-color: $color-black;
+  color: $color-white;
+  padding: 0.5rem;
+  text-align: center;
+
+  &__info {
+    font-family: fantasy;
+    font-size: 1rem;
+    line-height: 1.0;
+    font-weight: 100;
+  }
+}
+

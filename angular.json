@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -123,6 +124,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "calendar-slab-code"
+    }
+  },
+  "defaultProject": "calendar-slab-code",
+  "cli": {
+    "analytics": "b4661fb8-71b9-4497-bcf4-863b6e2282e0"
+  }
 }
