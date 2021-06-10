@@ -10,6 +10,7 @@ import {FooterComponent} from './components/footer/footer.component';
 import {HeaderComponent} from './components/header/header.component';
 import {CalendarComponent} from './components/calendar/calendar.component';
 import localePy from '@angular/common/locales/es-PY';
+import {ModalComponent} from './components/modal/modal.component';
 // Redux
 import * as reducers from './reducers';
 import {EffectsModule} from '@ngrx/effects';
@@ -36,7 +37,8 @@ registerLocaleData(localePy, 'es');
     LayoutComponent,
     FooterComponent,
     HeaderComponent,
-    CalendarComponent
+    CalendarComponent,
+    ModalComponent
   ],
   imports: [
     CommonModule,

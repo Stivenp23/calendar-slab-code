@@ -26,6 +26,7 @@ import {AppState} from '../../reducers';
 import {Store} from '@ngrx/store';
 import {EventsActions} from '../../actions';
 import {EventsService} from '../../services/eventsService';
+import {ModalComponent} from '../modal/modal.component';
 
 @Component({
   selector: 'app-calendar',
@@ -43,52 +44,22 @@ export class CalendarComponent {
     event: CalendarEvent;
   };
 
-  refresh: Subject<any> = new Subject();
-
   events: CalendarEvent[] = [];
   activeDayIsOpen = true;
+  refresh: Subject<any> = new Subject();
 
-  constructor(private modal: NgbModal, private store: Store<AppState>, public eventsService: EventsService) {
+  constructor(private modal: NgbModal,
+              private store: Store<AppState>,
+              public eventsService: EventsService,
+              private modalService: NgbModal) {
     this.store.dispatch(EventsActions.setEvents());
     this.store.dispatch(EventsActions.setCities());
   }
 
-
-  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
-    if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-        events.length === 0
-      ) {
-        this.activeDayIsOpen = false;
-      } else {
-        this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
-    }
-  }
-
-  eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd,
-                    }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
-
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = {event, action};
-    this.modal.open(this.modalContent, {size: 'lg'});
+    const modalRef = this.modalService.open(ModalComponent);
+    modalRef.componentInstance.modalData = this.modalData;
   }
 
   addEvent(): void {
@@ -109,10 +80,16 @@ export class CalendarComponent {
         },
       },
     ));
+    this.refresh.next();
   }
 
   deleteEvents(): void {
     this.store.dispatch(EventsActions.deleteEvents());
+  }
+
+  updateEvent(updateEvent: CalendarEvent) {
+    this.store.dispatch(EventsActions.updateEvent(updateEvent));
+    this.refresh.next();
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {

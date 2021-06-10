@@ -8,6 +8,8 @@ export function events(state = [], {type, payload}) {
       return [];
     case EventsActions.DELETE_EVENT:
       return state.filter((event) => event !== payload);
+    case EventsActions.UPDATE_EVENT:
+      return state;
     case EventsActions.ADD_EVENT:
       state.push({
         ...payload

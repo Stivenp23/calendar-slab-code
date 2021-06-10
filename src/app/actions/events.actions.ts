@@ -2,6 +2,7 @@ export class EventsActions {
   static SET_EVENTS = '[Config] SET_EVENTS';
   static DELETE_EVENTS = '[Config] DELETE_EVENTS';
   static DELETE_EVENT = '[Config] DELETE_EVENT';
+  static UPDATE_EVENT = '[Config] UPDATE_EVENT';
   static ADD_EVENT = '[Config] ADD_EVENT';
   static SET_CITIES = '[Config] SET_CITIES';
   static GET_EVENTS_SUCCESS = '[Config] GET_EVENTS_SUCCESS';
@@ -26,6 +27,10 @@ export class EventsActions {
   });
   static deleteEvents = () => ({
     type: EventsActions.DELETE_EVENTS
+  });
+  static updateEvent = payload => ({
+    type: EventsActions.UPDATE_EVENT,
+    payload
   });
   static addEvent = payload => ({
     type: EventsActions.ADD_EVENT,
