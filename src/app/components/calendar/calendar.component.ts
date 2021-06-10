@@ -7,19 +7,13 @@ import {
 import {
   startOfDay,
   endOfDay,
-  subDays,
-  addDays,
-  endOfMonth,
   isSameDay,
   isSameMonth,
-  addHours,
 } from 'date-fns';
 import {Subject} from 'rxjs';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
-  CalendarEventAction,
-  CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
 import {AppState} from '../../reducers';
@@ -27,7 +21,6 @@ import {Store} from '@ngrx/store';
 import {EventsActions} from '../../actions';
 import {EventsService} from '../../services/eventsService';
 import {ModalComponent} from '../modal/modal.component';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-calendar',
@@ -109,10 +102,6 @@ export class CalendarComponent {
 
   deleteEvent(eventToDelete: CalendarEvent) {
     this.store.dispatch(EventsActions.deleteEvent(eventToDelete));
-  }
-
-  setView(view: CalendarView) {
-    this.view = view;
   }
 
   closeOpenMonthViewDay() {

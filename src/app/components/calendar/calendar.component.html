@@ -71,12 +71,14 @@
               class="form-control"
               [(ngModel)]="event.title"
               [attr.maxlength]="30"
+              (keyup)="updateEvent(event)"
             />
           </td>
           <td>
             <input
               type="color"
               [(ngModel)]="event.color.primary"
+              (change)="updateEvent(event)"
             />
           </td>
           <td>
@@ -91,6 +93,7 @@
               dateFormat="Y-m-dTH:i"
               altFormat="F j, Y H:i"
               [placeholder]="event.start || ''"
+              (ngModelChange)="updateEvent(event)"
             />
           </td>
           <td>
@@ -105,19 +108,18 @@
               dateFormat="Y-m-dTH:i"
               altFormat="F j, Y H:i"
               [placeholder]="event.end || ''"
+              (ngModelChange)="updateEvent(event)"
             />
           </td>
           <td>
             <select
               class="form-control"
-              [(ngModel)]="event.city">
+              [(ngModel)]="event.city"
+              (change)="updateEvent(event)">
               <option *ngFor="let city of (eventsService.cities$ | async)" [value]="city?.label">{{city?.label}}</option>
             </select>
           </td>
           <td>
-            <button class="btn btn-primary mb-2" (click)="updateEvent(event)">
-              Update
-            </button>
             <button class="btn btn-danger" (click)="deleteEvent(event)">
               Delete
             </button>
