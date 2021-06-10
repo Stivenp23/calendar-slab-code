@@ -1,4 +1,4 @@
-<div class="calendar__content">
+<div class="calendar__content" *ngIf="(eventsService?.events$ | async) as eventsRedux">
   <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
@@ -63,7 +63,7 @@
     <mwl-calendar-month-view
       *ngSwitchCase="CalendarView.Month"
       [viewDate]="viewDate"
-      [events]="events"
+      [events]="eventsRedux"
       [refresh]="refresh"
       [activeDayIsOpen]="activeDayIsOpen"
       (dayClicked)="dayClicked($event.day)"
@@ -74,7 +74,7 @@
     <mwl-calendar-week-view
       *ngSwitchCase="CalendarView.Week"
       [viewDate]="viewDate"
-      [events]="events"
+      [events]="eventsRedux"
       [refresh]="refresh"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
@@ -83,7 +83,7 @@
     <mwl-calendar-day-view
       *ngSwitchCase="CalendarView.Day"
       [viewDate]="viewDate"
-      [events]="events"
+      [events]="eventsRedux"
       [refresh]="refresh"
       (eventClicked)="handleEvent('Clicked', $event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"
@@ -93,6 +93,10 @@
   <div class="edit-table">
     <h3>
       Edit events
+
+      <button class="btn btn-danger float-right  btn__deleteAll" (click)="deleteEvents()">
+       Delete All
+      </button>
       <button class="btn btn-primary float-right" (click)="addEvent()">
         Add new
       </button>
@@ -105,34 +109,28 @@
         <tr>
           <th>Title</th>
           <th>Primary color</th>
-          <th>Secondary color</th>
           <th>Starts at</th>
           <th>Ends at</th>
+          <th>City</th>
           <th>Remove</th>
         </tr>
         </thead>
 
         <tbody>
-        <tr *ngFor="let event of events">
+        <tr *ngFor="let event of eventsRedux">
           <td>
             <input
               type="text"
               class="form-control"
               [(ngModel)]="event.title"
               (keyup)="refresh.next()"
+              [attr.maxlength]="30"
             />
           </td>
           <td>
             <input
               type="color"
               [(ngModel)]="event.color.primary"
-              (change)="refresh.next()"
-            />
-          </td>
-          <td>
-            <input
-              type="color"
-              [(ngModel)]="event.color.secondary"
               (change)="refresh.next()"
             />
           </td>
@@ -148,7 +146,7 @@
               [enableTime]="true"
               dateFormat="Y-m-dTH:i"
               altFormat="F j, Y H:i"
-              placeholder="Not set"
+              [placeholder]="event.start || ''"
             />
           </td>
           <td>
@@ -163,8 +161,17 @@
               [enableTime]="true"
               dateFormat="Y-m-dTH:i"
               altFormat="F j, Y H:i"
-              placeholder="Not set"
+              [placeholder]="event.end || ''"
+
             />
+          </td>
+          <td>
+            <select
+              class="form-control"
+              [(ngModel)]="event.city"
+              (change)="refresh.next()">
+              <option *ngFor="let city of (eventsService.cities$ | async)" [value]="city?.label">{{city?.label}}</option>
+            </select>
           </td>
           <td>
             <button class="btn btn-danger" (click)="deleteEvent(event)">

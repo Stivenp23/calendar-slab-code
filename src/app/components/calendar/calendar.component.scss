@@ -1,5 +1,14 @@
 @import '../../../scss/index';
-.calendar{
+::ng-deep .cal-header{
+  background-color: $color-blue;
+  color: $color-white;
+  &.cal-cell-row{
+    &:hover{
+      background-color: $color-blue;
+    }
+  }
+}
+::ng-deep .calendar{
   &__content{
     text-align: center;
     padding: 3rem 1rem;
@@ -11,5 +20,11 @@
   pre {
     background-color: #f5f5f5;
     padding: 15px;
+  }
+  .edit-table{
+    margin-top: 3rem;
+  }
+  .btn__deleteAll{
+    margin-left: 10px;
   }
 }
