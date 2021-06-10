@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {startOfDay} from 'date-fns';
 import {Observable, of} from 'rxjs';
 import {Store} from '@ngrx/store';
-
 @Injectable({
   providedIn: 'root',
 })

@@ -43,7 +43,11 @@ registerLocaleData(localePy, 'es');
   imports: [
     CommonModule,
     FormsModule,
-    FlatpickrModule.forRoot(),
+    FlatpickrModule.forRoot({
+      enable: [
+        { from: '1900-01-01', to: '2500-12-31'}
+      ]
+    }),
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot(reducerToken),

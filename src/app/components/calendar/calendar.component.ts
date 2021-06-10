@@ -27,6 +27,7 @@ import {Store} from '@ngrx/store';
 import {EventsActions} from '../../actions';
 import {EventsService} from '../../services/eventsService';
 import {ModalComponent} from '../modal/modal.component';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-calendar',
@@ -60,6 +61,20 @@ export class CalendarComponent {
     this.modalData = {event, action};
     const modalRef = this.modalService.open(ModalComponent);
     modalRef.componentInstance.modalData = this.modalData;
+  }
+
+  dayClicked({date, events}: { date: Date; events: CalendarEvent[] }): void {
+    if (isSameMonth(date, this.viewDate)) {
+      if (
+        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
+        events.length === 0
+      ) {
+        this.activeDayIsOpen = false;
+      } else {
+        this.activeDayIsOpen = true;
+      }
+      this.viewDate = date;
+    }
   }
 
   addEvent(): void {
